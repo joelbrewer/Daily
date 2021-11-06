@@ -1,10 +1,28 @@
 #include <stdio.h>
 
-/* Template File */
+/* 1.5.1 File Copying */
+
+int simpleCopy()
+{
+  int c;
+  while ((c = getchar()) != EOF)
+    purchar(c);
+}
+
 
 int main()
 {
-  printf("Hello World");
-  return 0;
+  simpleCopy();
+}
+
+int verboseCopy()
+{
+  int c;
+
+  c = getchar();
+  while (c != EOF) {
+    putchar(c);
+    c = getchar();
+  }
 }
 
