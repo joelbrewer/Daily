@@ -1,8 +1,10 @@
-all: histogram.c
+all: histogram histogram-chars char-arrays
+
+histogram:
 	gcc -g -Wall -o histogram histogram.c
 
-all: histogram-chars.c
+histogram-chars: histogram-chars.c
 	gcc -g -Wall -o histogram-chars histogram-chars.c
 
-all: char-arrays.c
+char-arrays: char-arrays.c
 	gcc -g -o char-arrays char-arrays.c
