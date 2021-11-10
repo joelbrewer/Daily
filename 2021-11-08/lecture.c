@@ -19,7 +19,7 @@ int main() {
   printf("a[1] : %d \n", a[1]);
   increase(a);
   printf("a[1] : %d \n", a[1]);
-  funWithPointers();
+  //funWithPointers();
   moreFunWithPointers();
 }
 
@@ -47,10 +47,12 @@ void moreFunWithPointers() {
 
   a = 1;
   x = &a;
+  printf("x is %p \n", x);
   (*x)++;
+  printf("a is %d \n", a);
   y = &x;
   (**y)++;
   printf("a is now: %d \n", a);
-  *x = 1;
+  *x = 1; // equal to a = 1
   printf("a is now: %d \n", a);
 }
