@@ -3,7 +3,6 @@
 #define MAXLINE 1000
 #define MAXBUFFER 10000
 
-/* Template File */
 // Remove trailing blanks and tabs from each line of input
 // Delete entirely blank lines
 //
@@ -98,3 +97,12 @@ void copy(char to[], char from[])
   ++outputIndex;
 }
 
+// input: abcdefg
+// output: gfedcba
+
+// iterate through array backwards
+// copy to new array
+void reverse(char s[])
+{
+  // char out[];
+}
