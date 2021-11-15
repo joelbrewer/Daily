@@ -86,11 +86,13 @@ int getit(char s[], int lim)
   i = 0;
 
   while ((c = getchar()) != EOF && c != '\n') {
-    if (i < (MAXLINE-1) && c != '\t') {
+    if (i < (MAXLINE-1) && c != '\t' && c != ' ') {
       s[i] = c;
       i++;
     }
-    if (c == '\t') {
+    // We've encountered some whitespace...
+    if (c == '\t' || c == ' ') {
+
       sp = spacesToAdd(i);
       for (int j = sp; j > 0; j--) {
         s[i] = ' ';
