@@ -1,8 +1,30 @@
 #include <stdio.h>
 #define TABINC 8
+#define MAXCOL 8
 
 /* Note: Copied this solution from K&R answers manual */
+void fold();
+
 int main()
+{
+  fold();
+}
+
+void fold()
+{
+  int c, pos;
+  for (pos = 1; (c = getchar()) != EOF; ++pos) {
+    if (pos > MAXCOL) {
+      putchar('\n');
+      putchar(c);
+      pos = 1;
+    } else {
+      putchar(c);
+    }
+  }
+}
+
+void detab()
 {
   int c, nb, nt, pos;
 
@@ -31,5 +53,5 @@ int main()
         pos = pos + (TABINC - (pos-1) % TABINC) - 1;
     }
   }
-  return 0;
 }
+
