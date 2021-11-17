@@ -35,12 +35,6 @@ void fold()
 
   for (col = 1; (c = getchar()) != EOF; ++col) {
 
-    // if (c == '\n') {
-    //   col = 1;
-    //   wordLength = 0;
-    //   wordStart = col;
-    // }
-
     if (c == ' ' || c == '\n' || c == '\t') {
       state = OUT;
       // Print the previous word
@@ -66,7 +60,6 @@ void fold()
       state = IN;
       wordLength = 0;
       wordLength++; // this wil be 1
-      // word[col-1] = c;
       word[0] = c;
       word[1] = '\0';
     } else {
