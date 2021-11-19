@@ -19,6 +19,12 @@ void fold();
 
 // hello my name is
 // Joel and I am
+//
+// hello my
+// name is Joel
+// and I am
+// from Saint
+// Louis
 
 int main()
 {
@@ -38,20 +44,30 @@ void fold()
     if (c == ' ' || c == '\n' || c == '\t') {
       state = OUT;
       // Print the previous word
-      if ((wordStart + wordLength - 1) <= MAXCOL) {
+      //
+      // printf("printing previous\n");
+      // printf("wordStart %d\n", wordStart);
+      // printf("wordLength %d\n", wordLength);
+
+      // printf("\nbeforePrint\n");
+      // printf("wordStart : %d\n", wordStart);
+      if ((wordStart - 1 + wordLength) <= MAXCOL) {
         for(int i = 0; i < wordLength; i++) {
           putchar(word[i]);
+          col++;
         }
         putchar(' ');
       } else {
         putchar('\n');
+        col = 1;
+
         // This won't account for words that are greater than MAXCOL
         // Will need to add handling to wrap those
         for(int i = 0; i < wordLength; i++) {
           putchar(word[i]);
+          col++;
         }
         putchar(' ');
-        col = 1;
       }
       wordStart = col;
       // Now we've hit an actual char
@@ -75,3 +91,4 @@ void fold()
     // printf("word %s\n", word);
   }
 }
+
