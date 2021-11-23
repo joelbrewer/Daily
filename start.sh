@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-date=$(date '+%Y-%m-%d')
-echo $date
+today=$(date '+%Y-%m-%d')
+yesterday=$(date -v-1d '+%Y-%m-%d')
 
-mkdir $date
-echo "Copying template..."
-cp template.c $date/main.c
-echo "Copying Makefile..."
-cp Makefile $date
+mkdir $today
+echo "Copying yesterday..."
+cp -R $yesterday/. $today
