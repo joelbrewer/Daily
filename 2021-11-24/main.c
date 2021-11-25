@@ -8,6 +8,7 @@ int largestPrimeFactor(int n);
 int main()
 {
   printf("sumFib() : %d\n", sumFib());
+  printf("Largest prime : %d", largestPrimeFactor(1));
   return 0;
 }
 
@@ -58,6 +59,16 @@ int fib(int n)
 
 int largestPrimeFactor(int n)
 {
+  long i = 600851475143;
+  long sieve[i];
+  // long p = 2;
+
+  // Build the sieve
+  for (long j = 0; j <= i; j++) {
+    sieve[j] = j;
+  }
+  printf("Built!\n");
+
   // Use Seive of Eratosthenes
   return 0;
 }
