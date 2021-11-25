@@ -3,6 +3,7 @@
 int atoi(char s[]);
 int fib(int i);
 int sumFib();
+int largestPrimeFactor(int n);
 
 int main()
 {
@@ -55,3 +56,8 @@ int fib(int n)
   }
 }
 
+int largestPrimeFactor(int n)
+{
+  // Use Seive of Eratosthenes
+  return 0;
+}
