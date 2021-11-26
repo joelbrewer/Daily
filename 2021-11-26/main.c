@@ -16,6 +16,7 @@ long largestPrimeFactor(long in);
 int isPalindrome(int n);
 void largestPalindrome();
 void smallestMultiple();
+void squareDifference();
 
 struct node* newNode(long data)
 {
@@ -36,7 +37,8 @@ int main()
   sprintf(string,"%d",123);
   // printf("Output: %s\n", string);
   // largestPalindrome();
-  smallestMultiple();
+  // smallestMultiple();
+  squareDifference();
   return 0;
 }
 
@@ -121,5 +123,24 @@ void smallestMultiple()
       c++;
     }
   }
+}
+
+void squareDifference()
+{
+  long sum = 0, sumSquares = 0;
+  long squareSum, diff;
+
+  for(int i = 1; i<= 100; i++) {
+    sumSquares += i*i;
+    sum += i;
+  }
+
+  squareSum = sum * sum;
+  printf("Sum : %ld\n", sum);
+  printf("Sum Squares: %ld\n", sumSquares);
+  printf("Square Sum : %ld\n", squareSum);
+  diff = squareSum - sumSquares;
+
+  printf("Square Diff : %ld\n", diff);
 }
 
