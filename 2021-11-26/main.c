@@ -15,6 +15,7 @@ void printArray(long a[]);
 long largestPrimeFactor(long in);
 int isPalindrome(int n);
 void largestPalindrome();
+void smallestMultiple();
 
 struct node* newNode(long data)
 {
@@ -34,7 +35,8 @@ int main()
   printf("Input: %ld\n", INPUT);
   sprintf(string,"%d",123);
   // printf("Output: %s\n", string);
-  largestPalindrome();
+  // largestPalindrome();
+  smallestMultiple();
   return 0;
 }
 
@@ -87,5 +89,37 @@ int isPalindrome(int n)
   copy(r, s);
   reverse(r);
   return strcmp(s,r);
+}
+
+void smallestMultiple()
+{
+  int c = 20;
+  while(1) {
+    if (c % 1 == 0 &&
+        c % 2 == 0 &&
+        c % 3 == 0 &&
+        c % 4 == 0 &&
+        c % 5 == 0 &&
+        c % 6 == 0 &&
+        c % 7 == 0 &&
+        c % 8 == 0 &&
+        c % 9 == 0 &&
+        c % 10 == 0 &&
+        c % 11 == 0 &&
+        c % 12 == 0 &&
+        c % 13 == 0 &&
+        c % 14 == 0 &&
+        c % 15 == 0 &&
+        c % 16 == 0 &&
+        c % 17 == 0 &&
+        c % 18 == 0 &&
+        c % 19 == 0 &&
+        c % 20 == 0) {
+      printf("Answer : %d\n", c);
+      break;
+    } else {
+      c++;
+    }
+  }
 }
 
