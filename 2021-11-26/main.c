@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "../lib/jlib.h"
 #define INPUT 600851475143L
 
@@ -12,6 +13,8 @@ struct node {
 
 void printArray(long a[]);
 long largestPrimeFactor(long in);
+int isPalindrome(int n);
+void largestPalindrome();
 
 struct node* newNode(long data)
 {
@@ -27,9 +30,11 @@ struct node* newNode(long data)
 
 int main()
 {
-  long output = largestPrimeFactor(INPUT);
+  char string[100];
   printf("Input: %ld\n", INPUT);
-  printf("Output: %ld\n", output);
+  sprintf(string,"%d",123);
+  // printf("Output: %s\n", string);
+  largestPalindrome();
   return 0;
 }
 
@@ -57,3 +62,30 @@ void printArray(long a[])
     printf("a[%ld] : %ld \n", i, a[i]);
   }
 }
+
+// Largest palindrome product (PE Problem 4)
+void largestPalindrome()
+{
+  int largest = 0;
+  int product;
+  for(int i = 100; i < 1000; i++) {
+    for(int j = 100; j < 1000; j++) {
+      product = i*j;
+      if (isPalindrome(product) == 0 && product > largest) {
+        largest = product;
+      }
+    }
+  }
+  printf("Largest : %d", largest);
+}
+
+int isPalindrome(int n)
+{
+  char s[100] = { '0' };
+  char r[100] = { '0' };
+  sprintf(s,"%d",n);
+  copy(r, s);
+  reverse(r);
+  return strcmp(s,r);
+}
+

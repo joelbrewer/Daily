@@ -28,3 +28,27 @@ long smallestPrimeFactor(long n)
   }
   return n;
 }
+
+void reverse(char s[])
+{
+  char out[100];
+  int c, i, j;
+  i = 0;
+
+  while ((c = s[i]) != '\0')
+    i++;
+
+  for (j = 0; j < i; j++) {
+    out[j] = s[i-j-1];
+  }
+
+  copy(s, out);
+}
+
+void copy(char to[], char from[])
+{
+  int i;
+  i = 0;
+  while ((to[i] = from[i]) != '\0')
+    ++i;
+}
