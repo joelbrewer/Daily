@@ -17,6 +17,7 @@ int isPalindrome(int n);
 void largestPalindrome();
 void smallestMultiple();
 void squareDifference();
+void problem7();
 
 struct node* newNode(long data)
 {
@@ -38,7 +39,8 @@ int main()
   // printf("Output: %s\n", string);
   // largestPalindrome();
   // smallestMultiple();
-  squareDifference();
+  // squareDifference();
+  problem7();
   return 0;
 }
 
@@ -142,5 +144,23 @@ void squareDifference()
   diff = squareSum - sumSquares;
 
   printf("Square Diff : %ld\n", diff);
+}
+
+void problem7()
+{
+  long counter = 1;
+  long currentPrime = 0;
+  long i = 2;
+  while(counter <= 10001) {
+  // while(counter <= 10) {
+    if (isPrime(i) == 1) {
+      printf("currentPrime %ld\n", i);
+      printf("counter %ld\n", counter);
+      currentPrime = i;
+      counter++;
+    }
+    i++;
+
+  }
 }
 
