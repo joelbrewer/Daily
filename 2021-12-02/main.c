@@ -6,17 +6,18 @@
 
 int day1part1();
 void day1part2();
+int day2part1();
+char last(char s[]);
 
 int main()
 {
   // printf("Day 1 Part 1 : %d\n", day1part1());
-  day1part2();
-  printf("Day 1 Part 2 : %d\n", day1part1());
+  // day1part2();
+  printf("Day 2 Part 1 : %d\n", day2part1());
 }
 
 int day1part1()
 {
-  printf("day1part1()\n");
   char const* const fileName = "output";
   FILE* file = fopen(fileName, "r");
   char line[512];
@@ -24,9 +25,7 @@ int day1part1()
   int numGreater = 0;
   int iterator = 0;
   int current = 0, previous = 0;
-  printf("Before while\n");
   while (fgets(line, sizeof(line), file)) {
-    printf("Inside while\n");
     sscanf(line, "%d", &current);
     if ( (iterator > 0) && (current > previous)) {
       numGreater++;
@@ -36,13 +35,11 @@ int day1part1()
   }
 
   fclose(file);
-  printf("Num greater %d\n", numGreater);
   return numGreater;
 }
 
 void day1part2()
 {
-  printf("day1part2()\n");
   char const* const fileName = "input1.txt";
   char const* const outFileName = "output";
   FILE* file = fopen(fileName, "r");
@@ -117,4 +114,45 @@ void day1part2()
 
   fclose(file);
   fclose(fileOut);
+}
+
+int day2part1()
+{
+  char const* const input = "input2.txt";
+  FILE* file = fopen(input, "r");
+  char line[64];
+
+  int x = 0;
+  int y = 0;
+
+  while (fgets(line, sizeof(line), file)) {
+    int num = last(line);
+    printf("Num : %d\n", num);
+    switch(line[0]) {
+      case 'f' :
+        y += num;
+        break;
+      case 'u' :
+        x -= num;
+        break;
+      case 'd' :
+        x += num;
+        break;
+    }
+  }
+  fclose(file);
+  printf("x : %d\n", x);
+  printf("y : %d\n", y);
+  return x*y;
+}
+
+char last(char s[]) {
+  int c;
+  int i = 0;
+  int out;
+  while ((c = s[i]) != '\0') {
+    i++;
+  }
+  out = s[i-2] - '0';
+  return out;
 }
