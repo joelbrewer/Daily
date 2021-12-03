@@ -7,13 +7,13 @@
 int day1part1();
 void day1part2();
 int day2part1();
+int day2part2();
 char last(char s[]);
 
 int main()
 {
-  // printf("Day 1 Part 1 : %d\n", day1part1());
-  // day1part2();
   printf("Day 2 Part 1 : %d\n", day2part1());
+  printf("Day 2 Part 2 : %d\n", day2part2());
 }
 
 int day1part1()
@@ -127,7 +127,6 @@ int day2part1()
 
   while (fgets(line, sizeof(line), file)) {
     int num = last(line);
-    printf("Num : %d\n", num);
     switch(line[0]) {
       case 'f' :
         y += num;
@@ -141,8 +140,35 @@ int day2part1()
     }
   }
   fclose(file);
-  printf("x : %d\n", x);
-  printf("y : %d\n", y);
+  return x*y;
+}
+
+int day2part2()
+{
+  char const* const input = "input2.txt";
+  FILE* file = fopen(input, "r");
+  char line[64];
+
+  int x = 0;
+  int y = 0;
+  int aim = 0;
+
+  while (fgets(line, sizeof(line), file)) {
+    int num = last(line);
+    switch(line[0]) {
+      case 'f' :
+        y += num;
+        x += aim*num;
+        break;
+      case 'u' :
+        aim -= num;
+        break;
+      case 'd' :
+        aim += num;
+        break;
+    }
+  }
+  fclose(file);
   return x*y;
 }
 
