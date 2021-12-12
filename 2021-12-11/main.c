@@ -128,11 +128,23 @@ int checkForBingo(struct board b)
 	return 0;
 }
 
-int checkforBingos()
+int checkforBingos(int num)
 {
   for(int i = 0; i < numBoards; i++) {
     if (checkForBingo(boards[i]) == 1) {
-      return i;
+      // printf("Winner: board %d\n", i);
+      // return i;
+      struct node *ptr = head;
+      int alreadyWon = 0;
+      while(ptr != NULL) {
+        if (ptr->data == i) {
+          alreadyWon = 1;
+        }
+        ptr = ptr->next;
+      }
+      if (alreadyWon == 0) {
+        insertFirst(i);
+      }
     }
   }
   return -1;
@@ -150,13 +162,13 @@ void parseNums()
   while(num != NULL) {
     printf("%s\n", num);
     addNum(atoi(num));
-    int b = checkforBingos();
+    int b = checkforBingos(atoi(num));
     if (b != -1) {
-      printf("We have a winner!\n");
+      printf("We have a winner! (Num: %d, Board: %d)\n", atoi(num), b);
+
       printBoard(boards[b]);
       int a = getAnswer(boards[b], atoi(num));
       printf("Answer : %d\n", a);
-      return;
     }
     num =strtok(NULL, s);
   }
@@ -172,7 +184,7 @@ void parseBoards()
   const char s[2] = " ";
   FILE* file = fopen(fileName, "r");
   char line[256];
-  int count = 1;
+  int count = 0;
   char *num;
   int currentBoardIndex = -1;
 
@@ -188,14 +200,17 @@ void parseBoards()
       numBoards++;
     }
 
-    if (count > 2 && (currentRow != -1)) {
+    if (count > 2 && (currentRow != -1) && (*num != 10)) {
        // printf("count > 2\n");
       int currentCol = 0;
       while(num != NULL) {
         // printf("inside while\n");
         printf("currentBoardIndex : %d\n", currentBoardIndex);
+        printf("count : %d\n", count);
         printf("currentRow : %d\n", currentRow);
         printf("currentCol : %d\n", currentCol);
+        printf("num : %d\n", *num);
+        printf("num : %s\n", num);
         printf("num : %d\n", atoi(num));
         boards[currentBoardIndex].s[currentRow][currentCol] = (space) { .value = atoi(num), .status = 0 };
         currentCol++;
@@ -207,17 +222,6 @@ void parseBoards()
   }
   fclose(file);
 }
-
-
-
-
-
-// Parse nums
-// Parse boards
-// Add num to boards
-// Check all boards for bingo after num >= 5
-// Repeat
-
 
 int main()
 {
