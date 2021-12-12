@@ -174,12 +174,10 @@ void parseNums()
   }
 
   fclose(file);
-  printf("Input: %s\n", input);
 }
 
 void parseBoards()
 {
-  printf("parseBoards()\n");
   char const* const fileName = "input4.txt";
   const char s[2] = " ";
   FILE* file = fopen(fileName, "r");
@@ -189,11 +187,8 @@ void parseBoards()
   int currentBoardIndex = -1;
 
   while (fgets(line, sizeof(line), file)) {
-    // printf("inside loop\n");
     num = strtok(line, " ");
     int currentRow = ((count-2)%6)-1;
-    // printf("currentRow %d\n", currentRow);
-    // printf("count %d\n", count);
 
     if ((count+3) % 6 == 0 ) {
       currentBoardIndex++;
@@ -201,17 +196,8 @@ void parseBoards()
     }
 
     if (count > 2 && (currentRow != -1) && (*num != 10)) {
-       // printf("count > 2\n");
       int currentCol = 0;
       while(num != NULL) {
-        // printf("inside while\n");
-        printf("currentBoardIndex : %d\n", currentBoardIndex);
-        printf("count : %d\n", count);
-        printf("currentRow : %d\n", currentRow);
-        printf("currentCol : %d\n", currentCol);
-        printf("num : %d\n", *num);
-        printf("num : %s\n", num);
-        printf("num : %d\n", atoi(num));
         boards[currentBoardIndex].s[currentRow][currentCol] = (space) { .value = atoi(num), .status = 0 };
         currentCol++;
         num = strtok(NULL, s);
