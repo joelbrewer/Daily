@@ -3,7 +3,6 @@
 #include <math.h>
 #include <string.h>
 #include "../lib/jlib.h"
-#define MAXALIGN 16
 
 struct node {
   int data;
@@ -34,12 +33,19 @@ void parsePositions()
   }
 }
 
-int calculateFuel(int final)
+int calculateFuel(int final, int additionalFuel)
 {
   int fuel = 0;
   struct node *ptr = head;
   while(ptr != NULL) {
-    fuel = fuel + abs((final - (ptr->data)));
+    int steps = abs(final-(ptr->data));
+    // Use the formual for the nth triangular number to calculate
+    // additional fuel needs for part 2
+    if (additionalFuel == 1) {
+      fuel = fuel + ((steps*steps)+steps)/2;
+    } else {
+      fuel = fuel + steps;
+    }
     ptr = ptr->next;
   }
   return fuel;
@@ -65,9 +71,9 @@ void part1()
   int minFuel = 0;
   for(int i = 0; i < largest(); i++) {
     if (i == 0) {
-      minFuel = calculateFuel(0);
+      minFuel = calculateFuel(0, 0);
     } else {
-      int fuel = calculateFuel(i);
+      int fuel = calculateFuel(i, 0);
       if (fuel < minFuel) {
         minFuel = fuel;
       }
@@ -78,6 +84,20 @@ void part1()
 
 void part2()
 {
+  head = NULL;
+  parsePositions();
+  int minFuel = 0;
+  for(int i = 0; i < largest(); i++) {
+    if (i == 0) {
+      minFuel = calculateFuel(0, 1);
+    } else {
+      int fuel = calculateFuel(i, 1);
+      if (fuel < minFuel) {
+        minFuel = fuel;
+      }
+    }
+  }
+  printf("Min fuel : %d\n", minFuel);
 }
 
 int main()
