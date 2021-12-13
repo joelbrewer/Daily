@@ -22,6 +22,8 @@ void insertFirst(int data)
   head = link;
 }
 
+long fish[9] = {0};
+
 void addLine(int coords[4])
 {
 	int smallY, largeY, smallX, largeX;
@@ -120,7 +122,22 @@ void parseInitialState()
     insertFirst(atoi(num));
     num = strtok(NULL, delimiters);
   }
+}
 
+void parseInitialState2()
+{
+  char const* const fileName = "input6.txt";
+  char input[5000];
+  const char delimiters[] = ",";
+  FILE* file = fopen(fileName, "r");
+  char *num;
+  fscanf(file, "%[^\n]", input);
+  num = strtok(input,delimiters);
+  while(num != NULL) {
+    // printf("Inserting...");
+    fish[atoi(num)]++;
+    num = strtok(NULL, delimiters);
+  }
 }
 
 void printList()
@@ -155,6 +172,26 @@ void breed()
   }
 }
 
+void breed2()
+{
+  long tmp[9] = { 0 };
+  for(int i = 0; i < GENERATIONS; i++) {
+    for(int j = 0; j < 9; j++) {
+      tmp[j] = fish[j];
+    }
+
+    fish[0] = tmp[1];
+    fish[1] = tmp[2];
+    fish[2] = tmp[3];
+    fish[3] = tmp[4];
+    fish[4] = tmp[5];
+    fish[5] = tmp[6];
+    fish[6] = tmp[7] + tmp[0];
+    fish[7] = tmp[8];
+    fish[8] = tmp[0];
+  }
+}
+
 int countFish()
 {
   int numFish = 0;
@@ -162,6 +199,15 @@ int countFish()
   while(ptr != NULL) {
     numFish++;
     ptr = ptr->next;
+  }
+  return numFish;
+}
+
+long countFish2()
+{
+  long numFish = 0;
+  for(int i = 0; i < 9; i++) {
+    numFish += fish[i];
   }
   return numFish;
 }
@@ -175,8 +221,11 @@ int main()
   // printf("Answer : %d\n", answer);
   
   // Day 6
-  parseInitialState();
-  breed();
+  parseInitialState2();
+  breed2();
+  for (int i = 0; i < 9; i++) {
+    printf("Fish[%d] : %ld\n", i, fish[i]);
+  }
   // printList();
-  printf("Answer : %d\n", countFish());
+  printf("Answer : %ld\n", countFish2());
 }
