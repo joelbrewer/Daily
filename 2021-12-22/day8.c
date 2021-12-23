@@ -8,131 +8,9 @@
 #define SEVENLENGTH 3
 #define EIGHTLENGTH 7
 
-
-struct node {
-  int data;
-  struct node *next;
-};
-
-void permute(char *a, int l, int r, char *p);
-
-struct node *head = NULL;
-void insertFirst(int data)
-{
-  struct node *link = (struct node*) malloc(sizeof(struct node));
-  link->data = data;
-  link->next = head;
-  head = link;
-}
-
-int ones = 0;
-int fours = 0;
-int sevens = 0;
-int eights = 0;
+int finalResult = 0;
 
 
-void parseInput()
-{
-  char const* const fileName = "input8.txt";
-  const char delimiters[] = "|";
-  FILE* file = fopen(fileName, "r");
-  char line[256];
-  char *firstPart;
-  char *secondPart;
-  while (fgets(line, sizeof(line), file)) {
-    strtok(line, "\n");
-		firstPart = strtok(line,delimiters);
-		secondPart = strtok(NULL, delimiters);
-
-    char *word;
-
-    word = strtok(secondPart, " ");
-    while(word != NULL) {
-      switch(strlen(word)) {
-        case ONELENGTH :
-          ones++;
-          break;
-        case FOURLENGTH :
-          fours++;
-          break;
-        case SEVENLENGTH :
-          sevens++;
-          break;
-        case EIGHTLENGTH :
-          eights++;
-          break;
-        default :
-          break;
-        ;
-      }
-      word = strtok(NULL, " ");
-    }
-	}
-  fclose(file);
-}
-
-void parseInputPart2()
-{
-  char const* const fileName = "test8-2.txt";
-  const char delimiters[] = "|";
-  FILE* file = fopen(fileName, "r");
-  char line[256];
-  char *firstPart;
-  char *secondPart;
-  while (fgets(line, sizeof(line), file)) {
-    strtok(line, "\n");
-		firstPart = strtok(line,delimiters);
-		secondPart = strtok(NULL, delimiters);
-
-    // char *word;
-
-		char str[] = "abcdefg";
-		int n = strlen(str);
-		// printf("firstPart %s\n", firstPart);
-		// int nums[10];
-		permute(str, 0, n-1, firstPart);
-
-	}
-  fclose(file);
-}
-
-int total()
-{
-  return ones + fours + sevens + eights;
-}
-
-void part1()
-{
-  parseInput();
-  printf("Part 1 : %d\n", total());
-}
-
-// First, we know what 1, 4, 7 and 8 are.
-// Is there an order we should logically follow?
-// What data structures work best for this problem?
-// What methods need to be written?
-// I could try and solve one manually, then reverse-engineer my manual process?
-//
-// Length   Options
-// ================
-// 2        1
-// 3        7
-// 4        4
-//
-// 5        2,3,5
-// 6        0,6,9
-//
-// 7        8
-
-// Solve more like a logic puzzle?
-// For each remaining string, check against every possibility?
-//
-//
-// if length == 5
-//
-//    try against known
-// if length == 6
-//    try against known
 
 void copy(char to[], char from[])
 {
@@ -142,7 +20,6 @@ void copy(char to[], char from[])
     ++i;
 }
 
-/* Function to swap values at two pointers */
 void swap(char *x, char *y)
 {
     char temp;
@@ -151,9 +28,15 @@ void swap(char *x, char *y)
     *y = temp;
 }
 
+int concatenate(int x, int y) {
+  int pow = 10;
+  while(y >= pow)
+    pow *= 10;
+  return x * pow + y;        
+}
+
 int makesNum(char *w, char *a)
 {
-	printf("makesNum() : %s : %s \n", w, a);
 	char numZero[] = "1110111";
 	char numOne[] = "0010010";
 	char numTwo[] = "1011101";
@@ -172,8 +55,6 @@ int makesNum(char *w, char *a)
 			on[i] = '1';
 		}
 	}
-
-  printf("on : %s\n", on);
 
 	if (strcmp(on, numZero) == 0) {
 		return 0;
@@ -200,19 +81,17 @@ int makesNum(char *w, char *a)
 	}
 }
 
-/* Function to print permutations of string
-This function takes three parameters:
-1. String
-2. Starting index of the string
-3. Ending index of the string.
-4. Word patterns */
-void permute(char *a, int l, int r, char *p)
+void permute(char *a, int l, int r, char *p, char *p2)
 {
 	char part1[60];
+	char part2[60];
 	char *word;
 	int nums[10];
 	int n;
+  int result = 0;
+
 	copy(part1, p);
+	copy(part2, p2);
 
  	int i;
  	if (l == r) {
@@ -221,9 +100,6 @@ void permute(char *a, int l, int r, char *p)
  		// loop through each word
      while(word != NULL) {
 			 int num = makesNum(word, a);
-       if (num != -1) {
-         printf("Makes a num : num %i\n", num);
-       }
 			 if( (num != -1) && (nums[num] == 0) ) {
 				 nums[num] = 1;
 			 } else {
@@ -242,9 +118,17 @@ void permute(char *a, int l, int r, char *p)
 		}
 
 		if (n == 10) {
-			printf("We have a solution!\n");
-			printf("Permutation: %s\n", a);
-      exit(0);
+
+      char *word;
+
+      word = strtok(part2, " ");
+      while(word != NULL) {
+        int num = makesNum(word, a);
+        result = concatenate(result, num);
+        word = strtok(NULL, " ");
+      }
+
+      finalResult += result;
 			return;
 		}
 		
@@ -252,19 +136,40 @@ void permute(char *a, int l, int r, char *p)
  	} else {
  		for (i = l; i <= r; i++) {
  				swap((a+l), (a+i));
- 				permute(a, l+1, r, part1);
+ 				permute(a, l+1, r, part1, part2);
  				swap((a+l), (a+i)); //backtrack
  		}
  	}
 }
 
+void parseInputPart2()
+{
+  char const* const fileName = "input8.txt";
+  const char delimiters[] = "|";
+  FILE* file = fopen(fileName, "r");
+  char line[256];
+  char *firstPart;
+  char *secondPart;
+  while (fgets(line, sizeof(line), file)) {
+    strtok(line, "\n");
+		firstPart = strtok(line,delimiters);
+		secondPart = strtok(NULL, delimiters);
+
+		char str[] = "abcdefg";
+		int n = strlen(str);
+		permute(str, 0, n-1, firstPart, secondPart);
+	}
+  fclose(file);
+}
+
+
 void part2()
 {
 parseInputPart2();
+printf("Final result: %i", finalResult);
 }
 
 int main()
 {
-  // part1();
   part2();
 }
