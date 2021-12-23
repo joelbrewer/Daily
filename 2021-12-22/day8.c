@@ -3,14 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include "../lib/jlib.h"
-#define ONELENGTH 2
-#define FOURLENGTH 4
-#define SEVENLENGTH 3
-#define EIGHTLENGTH 7
 
 int finalResult = 0;
-
-
 
 void copy(char to[], char from[])
 {
