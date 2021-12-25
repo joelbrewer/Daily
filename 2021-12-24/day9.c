@@ -75,6 +75,14 @@ void part1()
   printf("Final Result: %i\n", finalResult);
 }
 
+void part2()
+{
+  // How to tell if a location is in a basin?
+  //  - Pretty sure a breadth first search (BFS) of the 2d array is the key
+  //      - https://algorithms.tutorialhorizon.com/breadth-first-search-bfs-in-2d-matrix-2d-array/
+  //  - First get a map of the locations of all low points (linked-list?)
+  //  - Check if there is an un-broken, decreasing trail to a low point (recursive function?)
+}
 
 int main()
 {
