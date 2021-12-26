@@ -155,6 +155,16 @@ struct Pair rear(struct Queue* queue)
 
 void BFS(int grid[][COLMAX], int vis[][COLMAX], int row, int col)
 {
+  struct Queue q;
+  struct Pair p = { .first = row, .second = col };
+  enqueue(&q, p);
+  vis[row][col] = 1;
+
+  while (isEmpty == 1) {
+    // TODO: finish writing out BFS code
+
+  }
+
   // store indices of the matrix cells
 }
 
