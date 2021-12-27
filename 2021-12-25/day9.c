@@ -155,15 +155,15 @@ struct Pair rear(struct Queue* queue)
 
 void BFS(int grid[][COLMAX], int vis[][COLMAX], int row, int col)
 {
-  struct Queue q;
-  struct Pair p = { .first = row, .second = col };
-  enqueue(&q, p);
-  vis[row][col] = 1;
+  // struct Queue q;
+  // struct Pair p = { .first = row, .second = col };
+  // enqueue(&q, p);
+  // vis[row][col] = 1;
 
-  while (isEmpty == 1) {
-    // TODO: finish writing out BFS code
+  // while (isEmpty == 1) {
+  //   // TODO: finish writing out BFS code
 
-  }
+  // }
 
   // store indices of the matrix cells
 }
@@ -186,6 +186,18 @@ void part1()
 void part2()
 {
   parseInput();
+  struct Queue *q = createQueue(100);
+  struct Pair p = { .first = 0, .second = 0 };
+  enqueue(q, p);
+  p.first = 1;
+  p.second = 1;
+  enqueue(q, p);
+  struct Pair p2 = dequeue(q);
+  printf("p2.first %i\n", p2.first);
+  printf("p2.second %i\n", p2.second);
+  p2 = dequeue(q);
+  printf("p2.first %i\n", p2.first);
+  printf("p2.second %i\n", p2.second);
   // How to tell if a location is in a basin?
   //  - Pretty sure a breadth first search (BFS) of the 2d array is the key
   //      - https://algorithms.tutorialhorizon.com/breadth-first-search-bfs-in-2d-matrix-2d-array/
@@ -195,5 +207,6 @@ void part2()
 
 int main()
 {
-  part1();
+  // part1();
+  part2();
 }
