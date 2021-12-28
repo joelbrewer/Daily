@@ -4,13 +4,15 @@
 #include <string.h>
 #include <limits.h>
 #include "../lib/jlib.h"
-#define COLMAX 10
-#define ROWMAX 5
+#define COLMAX 100
+#define ROWMAX 100
+#define LOWPOINTS 247
 
 int finalResult = 0;
 int count = 0;
 int input[ROWMAX][COLMAX];
 int vis[ROWMAX][COLMAX];
+int basinSizes[LOWPOINTS];
 
 int dRow[] = { -1, 0, 1, 0 };
 int dCol[] = { 0, 1, 0, -1 };
@@ -20,9 +22,11 @@ struct Pair {
   int second;
 };
 
+struct Pair lowPoints[LOWPOINTS];
+
 void parseInput()
 {
-  char const* const fileName = "test9.txt";
+  char const* const fileName = "input9.txt";
   FILE* file = fopen(fileName, "r");
   char line[256];
 	int rowIndex = 0;
@@ -157,8 +161,9 @@ struct Pair rear(struct Queue* queue)
   return queue->array[queue->rear];
 }
 
-void BFS(int grid[ROWMAX][COLMAX], int vis[ROWMAX][COLMAX], int row, int col)
+int BFS(int grid[ROWMAX][COLMAX], int vis[ROWMAX][COLMAX], int row, int col)
 {
+  int size = 1;
   struct Queue *q = createQueue(100);
   struct Pair p = { .first = row, .second = col };
   enqueue(q, p);
@@ -166,12 +171,11 @@ void BFS(int grid[ROWMAX][COLMAX], int vis[ROWMAX][COLMAX], int row, int col)
 
   while (isEmpty(q) == 0) {
     struct Pair p;
+    p = dequeue(q);
     int x = p.first;
     int y = p.second;
 
-    printf("%i ", grid[x][y] - '0');
-
-    p = dequeue(q);
+    // printf("%i ", grid[x][y] - '0');
 
     // Go to adjacent cells
     for (int i = 0; i < 4; i++) {
@@ -180,10 +184,39 @@ void BFS(int grid[ROWMAX][COLMAX], int vis[ROWMAX][COLMAX], int row, int col)
       if (isValid(vis, adjx, adjy)) {
         struct Pair p = { .first = adjx, .second = adjy };
         enqueue(q, p);
+        size++;
         vis[adjx][adjy] = 1;
       }
     }
   }
+  return size;
+}
+
+void swap(int* xp, int* yp)
+{
+	int temp = *xp;
+	*xp = *yp;
+	*yp = temp;
+}
+
+// Function to perform Selection Sort
+void selectionSort(int arr[], int n)
+{
+	int i, j, min_idx;
+
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n - 1; i++) {
+
+		// Find the minimum element in unsorted array
+		min_idx = i;
+		for (j = i + 1; j < n; j++)
+			if (arr[j] > arr[min_idx])
+				min_idx = j;
+
+		// Swap the found minimum element
+		// with the first element
+		swap(&arr[min_idx], &arr[i]);
+	}
 }
 
 void part1()
@@ -193,19 +226,33 @@ void part1()
     for(int col = 0; col < COLMAX; col++) {
       if (isLowPoint(row,col) == 1) {
         finalResult += (input[row][col] - '0' + 1);
+        struct Pair p = { .first = row, .second = col };
+        lowPoints[count] = p;
         count++;
       }
     }
   }
   printf("Count: %i\n", count);
-  printf("Final Result: %i\n", finalResult);
+  printf("Part 1 Final Result: %i\n", finalResult);
 }
 
 void part2()
 {
-  parseInput();
-  memset(vis, 0, sizeof(vis));
-  BFS(input, vis, 0, 1);
+  for(int i = 0; i < LOWPOINTS; i++) {
+    memset(vis, 0, sizeof(vis));
+    int s = BFS(input, vis, lowPoints[i].first, lowPoints[i].second);
+    basinSizes[i] = s;
+  }
+  int n = sizeof(basinSizes) / sizeof(basinSizes[0]);
+
+	selectionSort(basinSizes, n); 
+
+  int final = 1;
+
+  for (int i = 0; i < 3; i++) {
+    final = final * basinSizes[i];
+  }
+  printf("Part 2 Final Result: %i\n", final);
 }
 
 int main()
