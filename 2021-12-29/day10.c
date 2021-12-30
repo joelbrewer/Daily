@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
@@ -10,6 +11,94 @@ struct Stack {
   unsigned capacity;
   char* array;
 };
+
+struct node {
+  long data;
+  struct node *next;
+};
+
+struct node *head = NULL;
+struct node *current = NULL;
+
+void insertFirst(long data)
+{
+  struct node *link = (struct node*) malloc(sizeof(struct node));
+
+  link->data = data;
+  link->next = head;
+  head = link;
+}
+
+void printList()
+{
+  struct node *ptr = head;
+  printf("\n[ ");
+
+  while(ptr != NULL) {
+    printf("%ld ", ptr->data);
+    ptr = ptr->next;
+  }
+
+  printf(" ]");
+}
+
+long getNth(struct node* head, int index)
+{
+	struct node* current = head;
+  int count = 0;
+  while (current != NULL) {
+    if (count == index)
+      return (current->data);
+    count++;
+    current = current->next;
+  }
+  assert(0);
+}
+
+int length() {
+  int length = 0;
+  struct node *current;
+
+  for(current = head; current != NULL; current = current->next) {
+    length++;
+  }
+
+  return length;
+}
+
+struct node* newNode(long data)
+{
+    struct node* new_node = (struct node*)malloc( sizeof(struct node));
+  
+    new_node->data = data;
+    new_node->next = NULL;
+  
+    return new_node;
+}
+
+void sortedInsert(struct node** head_ref,
+                  struct node* new_node)
+{
+    struct node* current;
+    /* Special case for the head end */
+    if (*head_ref == NULL
+        || (*head_ref)->data
+               >= new_node->data) {
+        new_node->next = *head_ref;
+        *head_ref = new_node;
+    }
+    else {
+        /* Locate the node before 
+the point of insertion */
+        current = *head_ref;
+        while (current->next != NULL
+               && current->next->data < new_node->data) {
+            current = current->next;
+        }
+        new_node->next = current->next;
+        current->next = new_node;
+    }
+}
 
 struct Stack* createStack(unsigned capacity)
 {
@@ -145,6 +234,22 @@ int getPointValue(char c)
   }
 }
 
+int getPointValue2(char c)
+{
+  switch(c) {
+    case '(' :
+      return 1;
+    case '[' :
+      return 2;
+    case '{' :
+      return 3;
+    case '<' :
+      return 4;
+    default :
+      return 0;
+  }
+}
+
 void part1()
 {
   char const* const fileName = "input10.txt";
@@ -176,6 +281,42 @@ void part1()
 
 void part2()
 {
+  char const* const fileName = "input10.txt";
+  FILE* file = fopen(fileName, "r");
+  char line[256];
+  while (fgets(line, sizeof(line), file)) {
+    struct Stack* stack = createStack(100);
+		int incomplete = 1;
+    int c = 0;
+    int i = 0;
+    while ((c = line[i]) != '\n') {
+      if (isOpen(c) != -1) {
+        push(stack, c);
+      } else {
+        if (isMatch(c, stack) == 0) {
+					incomplete = 0;
+          break;
+        } else {
+          pop(stack);
+        }
+      }
+      i++;
+    }
+    if (incomplete == 1) {
+      long score = 0;
+      while(isEmpty(stack) != 1) {
+        score = score * 5;
+        score = score + getPointValue2(peek(stack));
+        pop(stack);
+      }
+			sortedInsert(&head, newNode(score));
+    }
+    free(stack);
+	}
+
+  int mid = length()/2;
+  printf("Final Score: %ld\n", getNth(head, mid));
+  fclose(file);
 }
 
 int main()
