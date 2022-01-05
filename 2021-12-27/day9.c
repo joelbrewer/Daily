@@ -4,8 +4,8 @@
 #include <string.h>
 #include <limits.h>
 #include "../lib/jlib.h"
-#define COLMAX 100
-#define ROWMAX 100
+#define COLMAX 10
+#define ROWMAX 10
 #define LOWPOINTS 247
 
 int finalResult = 0;
@@ -26,7 +26,7 @@ struct Pair lowPoints[LOWPOINTS];
 
 void parseInput()
 {
-  char const* const fileName = "input9.txt";
+  char const* const fileName = "test11.txt";
   FILE* file = fopen(fileName, "r");
   char line[256];
 	int rowIndex = 0;
@@ -257,6 +257,16 @@ void part2()
 
 int main()
 {
-  part1();
-  part2();
+  printf("before parse");
+  parseInput();
+  printf("after parse");
+  for (int i = 0; i < ROWMAX; i++) {
+    for (int j = 0; j < COLMAX; j++) {
+      printf("%d", input[i][j]);
+      if (j == COLMAX-1)
+        printf("\n");
+    }
+  }
+  // part1();
+  // part2();
 }
