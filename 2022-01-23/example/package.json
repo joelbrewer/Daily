@@ -1,0 +1,23 @@
+{
+  "name": "ethers-fun",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@uniswap/sdk-core": "^3.0.1",
+    "@uniswap/v3-sdk": "^3.8.1",
+    "ethers": "^5.5.3",
+    "i": "^0.3.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.10",
+    "tslib": "^2.3.1"
+  }
+}
