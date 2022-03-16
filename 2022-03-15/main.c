@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 /* bitcount: count 1 bits in x */
 int bitcount(unsigned x)
@@ -9,6 +10,42 @@ int bitcount(unsigned x)
     if (x & 01)
       b++;
   return b;
+}
+
+/* binsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
+int binsearch(int x, int v[], int n)
+{
+  int low, high, mid;
+
+  low = 0;
+  high = n - 1;
+  while (low <= high) {
+    mid = (low+high) / 2;
+    if (x < v[mid]) {
+      high = mid - 1;;
+    } else if (x > v[mid]) {
+      low = mid + 1;
+    } else {
+      return mid;
+    }
+  }
+  return -1; /* no match */
+}
+
+/* betterbinsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
+int betterbinsearch(int x, int v[], int n)
+{
+  int low, high, mid;
+
+  low = 0;
+  high = n - 1;
+
+  while (low <= high && x != v[mid]) {
+    mid = (low+high) / 2;
+    x < v[mid] ? (high = mid -1) : (low = mid + 1);
+  }
+
+  return (x == v[mid]) ? mid : -1;
 }
 
 int betterBitcount(unsigned x)
@@ -83,7 +120,28 @@ int main()
   printf("x : %d\n", x);
 
   printf("1s in 1111 (15) %d\n", betterBitcount(15));
-  printf("testLower : %d", testLower());
+  printf("testLower : %d\n", testLower());
+  printf("5/2 %d\n", 3/2);
+
+  clock_t t;
+  t = clock();
+  int sortedArray[1000000] = { 0 };
+
+  for (int i = 0; i < 1000000; i++) {
+    sortedArray[i] = i;
+  }
+
+  binsearch(55000, sortedArray, 1000000);
+  t = clock() - t;
+  double time_taken = ((double)t)/CLOCKS_PER_SEC;
+  printf("binsearch() took %f seconds to execute \n", time_taken);
+
+  clock_t t2;
+  t2 = clock();
+  betterbinsearch(55000, sortedArray, 1000000);
+  t2 = clock() - t2;
+  double time_taken2 = ((double)t2)/CLOCKS_PER_SEC;
+  printf("betterbinsearch() took %f seconds to execute \n", time_taken2);
 
   // &= (x-1) is equivalent to:
   // x = x & (x-1)
