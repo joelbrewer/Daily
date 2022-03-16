@@ -61,6 +61,7 @@ int main()
   x &= (x-1);
   printf("x : %d\n", x);
 
+  printf("1s in 1111 (15) %d", betterBitcount(15));
 
   // &= (x-1) is equivalent to:
   // x = x & (x-1)
