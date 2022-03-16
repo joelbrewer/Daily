@@ -21,6 +21,12 @@ int betterBitcount(unsigned x)
   return b;
 }
 
+/* lower: convert c to lower case; ASCII only */
+int lower(int c)
+{
+  return (c >= 'A' && c <= 'Z') ? c + 'a' - 'A' : c;
+}
+
 // To get the two's complement:
 //  1. Write the number in binary
 //  2. Invert the digits.
@@ -45,7 +51,22 @@ int betterBitcount(unsigned x)
 //  - A leading 1 means the number is negative
 //  - A leading 0 means the number is 0 or positive
 //  - See: https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html
+int testLower()
+{
+  if (lower('A') != 'a') {
+    return 1;
+  }
 
+  if (lower('a') != 'a') {
+    return 1;
+  }
+
+  if (lower('B') != 'b') {
+    return 1;
+  }
+
+  return 0;
+}
 int main()
 {
   printf("1s in 16: %d\n", bitcount(16)); // should return 1
@@ -61,7 +82,8 @@ int main()
   x &= (x-1);
   printf("x : %d\n", x);
 
-  printf("1s in 1111 (15) %d", betterBitcount(15));
+  printf("1s in 1111 (15) %d\n", betterBitcount(15));
+  printf("testLower : %d", testLower());
 
   // &= (x-1) is equivalent to:
   // x = x & (x-1)
