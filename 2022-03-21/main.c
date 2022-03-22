@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 /* Expands shorthand notation in the string s1 (eg: a-z) into
  * the corresponding complete list (abc...xyz) in s2
  */
@@ -89,8 +90,42 @@ int expandTest()
   return errors;
 }
 
+char *strrev(char *str){
+    char c, *front, *back;
+
+    if(!str || !*str)
+        return str;
+    for(front=str,back=str+strlen(str)-1;front < back;front++,back--){
+        c=*front;*front=*back;*back=c;
+    }
+    return str;
+}
+
+void itoa(long n, char s[])
+{
+  int i, sign;
+
+  if ((sign = n) < 0) /* record sign */
+    n = -n;
+  i = 0;
+  do { /* generate digits in reverse order */
+    s[i++] = n % 10 + '0'; /* get next digit */
+  } while ((n /= 10) > 0); /* delete it */
+  if (sign < 0)
+    s[i++] = '-';
+  s[i] = '\0';
+  strrev(s);
+}
+
+// A machine word is the size (in bits) of data that the machine's CPU can handle optimally
+// It is usually the same as the size of the processor's registers and addresses.
+// It may vary between different architectures, but is typically 32 or 64 bits on modern
+// machines.
 int main()
 {
-   printf("expandTest() : %d\n", expandTest());
+  char s[1000];
+  itoa(-pow(2,31),s);
+  printf("itoa result : %s\n", s);
   return 0;
 }
+
